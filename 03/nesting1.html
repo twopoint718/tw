@@ -1,0 +1,19 @@
+<html>
+  <head><title>Display</title></head>
+  <body>
+    <script>
+      function display() {
+        var target = document.getElementById('target');
+        var text = document.getElementById('text');
+        target.innerHTML = text.value;
+      }
+    </script>
+
+    <form action="#">
+      <input id="text">
+      <button onclick="display()">Display</button>
+    </form>
+
+    <h1 id="target"></h1>
+  </body>
+</html>

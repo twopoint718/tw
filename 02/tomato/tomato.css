@@ -1,0 +1,38 @@
+#login {
+  text-align: right;
+  margin-right: 15%;
+}
+
+body {
+  font-family: sans-serif;
+  font-size: 1.5em;
+}
+
+table {
+  border-spacing: 0;
+}
+
+table th {
+  border-bottom: 1px solid gray;
+  padding: 0.5em;
+}
+
+table td {
+  border-bottom: 1px solid gray;
+  padding: 0.5em;
+}
+
+fieldset {
+  width: 40%;
+  margin-top: 2em;
+}
+
+button {
+  font-family: sans-serif;
+  font-size: 1em;
+}
+
+input {
+  line-height: 1.5em;
+  font-size: 1em;
+}

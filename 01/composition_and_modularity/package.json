@@ -1,0 +1,21 @@
+{
+  "name": "chap01",
+  "version": "1.0.0",
+  "description": "The Transparent Web Chapter 1 JavaScript examples",
+  "main": "composition.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:cjw/tw.git"
+  },
+  "keywords": [
+    "book"
+  ],
+  "author": "Chris Wilson <chris@sencjw.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "jest-cli": "^0.2.1"
+  }
+}

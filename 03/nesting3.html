@@ -1,0 +1,17 @@
+<html>
+  <head><title>My Page</title></head>
+  <body>
+    <script>
+      function greet() {
+        var target = document.getElementById('target');
+        var source = document.getElementById('greeting');
+        target.append = 'Hello, <i>' + source.value + '</i>';
+      }
+    </script>
+    <form action="#">
+      <input id="greeting" />
+      <button onclick="greet()">Greet</button>
+    </form>
+    <div id="target"></div>
+  </body>
+</html>

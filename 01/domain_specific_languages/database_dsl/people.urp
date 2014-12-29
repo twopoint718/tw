@@ -1,0 +1,5 @@
+database dbname=people
+sql people.sql
+rewrite url People/main
+
+people
