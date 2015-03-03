@@ -41,7 +41,7 @@ function chain(funcs) {
   if (funcs.length === 1) {
     return funcs[0];
   }
-  return compose(chain(funcs.slice(1)), funcs[0]);
+  return compose(chain(funcs.slice(1)), funcs[0]); // <1>
 }
 
 var foo4 = chain([bar, baz, quux]);

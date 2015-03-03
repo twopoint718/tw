@@ -20,31 +20,35 @@ if (Meteor.isClient) {
   }
   // end::helperFunctions[]
 
-  // tag::templateHandlers[]
+  // tag::templateHandlerMainRides[]
   Template.main.rides = function() {
     return Rides.find();                                        // <1>
   };
+  // end::templateHandlerMainRides[]
 
+  // tag::templateHandlerMainEvents[]
   Template.main.events({
-    'click .delete': function(evt, tmpl) {
+    'click .delete': function(evt, tmpl) {                      // <1>
       if (Rides.findOne(this._id).rider == currentEmail()) {    // <2>
-        Rides.remove(this._id);
+        Rides.remove(this._id);                                 // <3>
       } else {
-        console.log('can only delete your records!');
+        console.log('can only delete your records!');           // <4>
       }
     }
   });
+  // end::templateHandlerMainEvents[]
 
+  // tag::templateHandlerInputFormEvents[]
   Template.inputform.events({
-    'click button[name="submit"]': submitDistance,
-    'keydown input#distance': function(evt, tmpl) {
-      if (evt.keyCode == 13) {
-        submitDistance(evt, tmpl);
+    'click button[name="submit"]': submitDistance,             // <1>
+    'keydown input#distance': function(evt, tmpl) {            // <2>
+      if (evt.keyCode == 13) {                                 // <3>
+        submitDistance(evt, tmpl);                             // <4>
       }
     }
   });
+  // end::templateHandlerInputFormEvents[]
 }
-// end::templateHandlers[]
 
 // tag::serverSide[]
 if (Meteor.isServer) {
