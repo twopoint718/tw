@@ -53,25 +53,15 @@ run it like this:
     opa filename.opa
     ./filename.js
 
-### Ur/Web
+### Haskell
 
-To run the Ur/Web examples, you'll first have to install the Ur/Web
-compiler. Unfortunately, this is probably the most involved of any of the
-languages. The installation directions are found in the [Reference Manual
-(pdf)](http://www.impredicative.com/ur/manual.pdf). Briefly these are:
+The Haskell code can be built using the [Stack](https://github.com/commercialhaskell/stack/blob/master/doc/install_and_upgrade.md) tool.
+Then just change into the appropriate directory and run:
 
-1. Get the code: <http://www.impredicative.com/ur/urweb-20141206.tgz>,
-   keeping in mind that there may be a newer version
-2. Install MLton
-    1. Download <http://sourceforge.net/projects/mlton/files/mlton/20130715/>
-    2. Extract in place: `sudo tar -C / -xzvf
-       mlton-20130715-1.amd64-darwin.gmp-static.tgz`
-4. Then run `./configure`, `make`, and `make install` in the Ur/Web
-   directory
+    stack build
+    stack exec <project_name>
 
-On Linux platforms (I am on OS X) you may be able to just run your package
-manager to do all the heavy lifting. The manual has instructions about what
-packages are needed.
+to run the program.
 
 ### Elm
 
