@@ -1,5 +1,5 @@
-The Transparent Web: Code Examples
-==================================
+The Functional Web: Code Examples
+=================================
 
 Because the code used in this book varies quite a bit, the steps needed to
 run it also vary. I'll list the general steps here (e.g. for JavaScript
