@@ -1,0 +1,25 @@
+{
+  "name": "fw-7",
+  "version": "1.0.0",
+  "description": "Code for The Functional Web, Chapter 7",
+  "main": "elm.js",
+  "scripts": {
+    "test": "elm-test Tests.elm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/twopoint718/tw"
+  },
+  "keywords": [
+    "elm"
+  ],
+  "author": "Chris Wilson <chris@sencjw.com>",
+  "license": "BSD-3",
+  "bugs": {
+    "url": "https://github.com/twopoint718/tw/issues"
+  },
+  "homepage": "https://github.com/twopoint718/tw",
+  "dependencies": {
+    "elm-test": "0.16.0"
+  }
+}

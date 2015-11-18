@@ -7,3 +7,5 @@ _tracks
 *.log
 _build
 .stack-work
+elm-stuff
+elm.js
