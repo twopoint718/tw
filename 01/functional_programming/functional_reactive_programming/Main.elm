@@ -1,13 +1,14 @@
-import Graphics.Element (Element)
+module Main where
+
+import Graphics.Element exposing (Element, show)
 import Mouse
-import Signal (map, Signal)
-import String (join)
-import Text (asText)
+import Signal exposing (map, Signal)
+import String exposing (join)
 
 -- tag::mouseSignal[]
 main : Signal Element
 main = map showMouse Mouse.position
 
 showMouse : (Int, Int) -> Element
-showMouse (x, y) = join ", " [toString x, toString y] |> asText
+showMouse (x, y) = join ", " [toString x, toString y] |> show
 -- end::mouseSignal[]

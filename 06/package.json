@@ -1,0 +1,18 @@
+{
+  "name": "05",
+  "version": "1.0.0",
+  "description": "Chapter 5 tests",
+  "author": "Chris Wilson",
+  "license": "BSD-3",
+  "main": "test.js",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "dependencies" : {
+    "mocha": "~2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/twopoint718/tw"
+  }
+}
