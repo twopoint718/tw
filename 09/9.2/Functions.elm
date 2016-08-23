@@ -1,7 +1,7 @@
-module Functions where
+module Functions exposing (..)
 
 import Color exposing (blue)
-import Graphics.Element exposing (Element, leftAligned)
+import Element exposing (Element, leftAligned)
 import Text as T
 
 

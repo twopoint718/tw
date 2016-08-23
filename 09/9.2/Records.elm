@@ -1,4 +1,4 @@
-module Records where
+module Records exposing (..)
 
 
 -- tag::Monster[]

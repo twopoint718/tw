@@ -1,31 +1,31 @@
-module Main where
+module Main exposing (..)
 
 import Html exposing (Html)
-import StartApp
-import Effects exposing (Effects)
+import Html.App as Html
 
 -- tag::MainFunction[]
 import Model exposing (model)
 import View exposing (view)
 import Update exposing (update)
-import Types exposing (Model, Action)
+import Types exposing (Model, Msg)
 
-init : (Model, Effects Action)
+init : (Model, Cmd Msg)
 init =
   ( model                      -- <1>
-  , Effects.none               
+  , Cmd.none
   )
 
-app : StartApp.App Model
-app =
-    StartApp.start
+
+subscriptions : Model -> Sub a
+subscriptions _ = Sub.none
+
+
+main : Program Never
+main =
+    Html.program
       { init = init            -- <2>
       , view = view            -- <3>
       , update = update        -- <4>
-      , inputs = []
+      , subscriptions = subscriptions
       }
-
-main : Signal Html
-main =
-  app.html                     -- <5>
 -- end::MainFunction[]

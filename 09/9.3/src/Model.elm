@@ -1,11 +1,14 @@
-module Model where
+module Model exposing (..)
 
 import Date exposing (Date)
+import Date.Extra.Create as DateExtra
 import Regex exposing (regex)
+import Result exposing (map)
 import String
+import Time exposing (minute, millisecond)
 
 import Types exposing
-  ( Action (..)
+  ( Msg (..)
   , ErrorMsg (..)
   , FormEntry
   , Model
@@ -44,13 +47,31 @@ model =
       , setter = SetUser
       }
   , dateField = defaultField
-      { decoder = Date.fromString
+      { decoder = decodeDate
       , errorFun = ErrorDate
       , label = "date"
       , help = "Enter a date, e.g. 2015-12-20"
       , setter = SetDate
       }
   }
+
+
+decodeDate : String -> Result String Date
+decodeDate str =
+  map localizeDate <| Date.fromString str
+
+
+localizeDate : Date -> Date
+localizeDate date =
+  let
+    zoneOffset =
+      DateExtra.getTimezoneOffset date  -- Int value in minutes
+        |> toFloat
+        |> (*) (minute * millisecond)
+
+    localTime = Date.toTime date + zoneOffset
+  in
+    Date.fromTime localTime
 
 
 -- tag::FieldOptions[]

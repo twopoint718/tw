@@ -1,10 +1,10 @@
 -- tag::BasicSyntaxModuleImport[]
-module BasicSyntax where
+module BasicSyntax exposing (..)
 
 import List exposing (all, head, sortBy)
 import String exposing (length)
 import String as S
-import Graphics.Element exposing (show)
+import Element exposing (show)
 -- end::BasicSyntaxModuleImport[]
 
 

@@ -9,8 +9,10 @@
     <!-- TODO: <script type="text/javascript" src="js/bootstrap.min.js"></script>-->
   </head>
   <body>
-    <div class="container">
-      <script>var app = Elm.fullscreen(Elm.Main);</script>
-    </div>
+    <div id="container"></div>
+    <script>
+      var container = document.getElementById('container');
+      var app = Elm.Main.embed(container);
+    </script>
   </body>
 </html>

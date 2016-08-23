@@ -1,4 +1,4 @@
-module View where
+module View exposing (..)
 
 import Date.Format exposing (format)
 import Html
@@ -6,19 +6,19 @@ import Html exposing (..)
 import Html.Attributes as A
 import Maybe exposing (withDefault)
 
-import Types exposing (Action (..), Model, User, Ride, FormEntry)
+import Types exposing (Msg (..), Model, User, Ride, FormEntry)
 import Forms exposing (riderForm)
 
 
 -- tag::ViewMain[]
-view : Signal.Address Action -> Model -> Html
-view address model =                              -- <1>
+view : Model -> Html Msg
+view model =                                      -- <1>
   body [ A.class "container" ]
     [ h1 [] [ text "Biking!" ]
     , rideTable model.rides                       -- <2>
     , div [ A.class "row" ]
         [ div [ A.class "col-md-6" ]
-            [ riderForm address model             -- <3>
+            [ riderForm model                     -- <3>
             ]
         , div [ A.class "col-md-6" ]
             [ h2 [] [ text "this is the rest" ] ]
@@ -28,7 +28,7 @@ view address model =                              -- <1>
 
 
 -- tag::ViewTable[]
-rideTable : List Ride -> Html
+rideTable : List Ride -> Html a
 rideTable rides =
   table [ A.class "table tabled-bordered" ]
   [ thead []
@@ -41,7 +41,7 @@ rideTable rides =
   , tbody [] (List.map tableRow rides)            -- <1>
   ]
 
-tableRow : Ride -> Html
+tableRow : Ride -> Html a
 tableRow ride =                                   -- <2>
   tr []
     [ td [] [text ride.user.email]

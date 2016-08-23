@@ -1,11 +1,10 @@
-module Update where
+module Update exposing (..)
 
 import Date exposing (Date)
-import Effects exposing (Effects)
 import Maybe exposing (andThen, withDefault)
 
 import Types exposing
-  ( Action (..)
+  ( Msg (..)
   , ErrorMsg (..)
   , FormEntry
   , Model
@@ -17,8 +16,8 @@ import Types exposing
 
 
 -- tag::UpdateFunction[]
-update : Action -> Model -> (Model, Effects Action)         -- <1>
-update action model =
+update : Msg -> Model -> (Model, Cmd Msg)                -- <1>
+update msg model =
   let
     handleError err =                                       -- <2>
       newModel <| case err of                               -- <3>
@@ -67,7 +66,7 @@ update action model =
       in
         newModel (withDefault model model')                   -- <12>
   in
-    case action of                                            -- <13>
+    case msg of                                               -- <13>
       Error err -> handleError err
       Set set -> handleSet set
       Update update -> handleUpdate update
@@ -97,6 +96,6 @@ updateFn form input =
 
 
 -- tag::UpdateNewModel[]
-newModel : Model -> (Model, Effects Action)
-newModel = flip (,) Effects.none
+newModel : Model -> (Model, Cmd Msg)
+newModel = flip (,) Cmd.none
 -- end::UpdateNewModel[]

@@ -1,4 +1,4 @@
-module TypesAndTypeAliases where
+module TypesAndTypeAliases exposing (..)
 
 import List
 

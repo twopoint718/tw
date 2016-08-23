@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/twopoint718/tw",
   "dependencies": {
-    "elm-test": "0.16.0"
+    "elm-test": "0.17.3"
   }
 }

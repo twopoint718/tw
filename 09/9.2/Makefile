@@ -2,7 +2,7 @@ SOURCES = BasicSyntax.elm Tests.elm
 EXE = ./node_modules/elm-test/bin/elm-test
 
 tests: $(SOURCES) $(EXE)
-	./node_modules/elm-test/bin/elm-test Tests.elm
+	./node_modules/elm-test/bin/elm-test TestRunner.elm
 
 $(EXE): check
 	npm install

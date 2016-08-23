@@ -1,4 +1,4 @@
-module Types where
+module Types exposing (..)
 
 import Date exposing (Date, fromString, fromTime)
 
@@ -56,7 +56,7 @@ type UpdateMsg
 
 
 -- tag::Action[]
-type Action
+type Msg
   = Error ErrorMsg   -- <1>
   | Set SetMsg       -- <2>
   | Submit           -- <3>

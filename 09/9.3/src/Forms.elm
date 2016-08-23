@@ -1,4 +1,4 @@
-module Forms where
+module Forms exposing (..)
 
 import Html exposing (..)
 import Html.Attributes as A
@@ -8,7 +8,7 @@ import Result.Extra exposing (mapBoth)
 import String
 
 import Types exposing
-  ( Action (..)
+  ( Msg (..)
   , ErrorMsg (..)
   , FormEntry
   , Model
@@ -17,31 +17,30 @@ import Types exposing
 
 
 -- tag::FormsRiderForm[]
-riderForm : Signal.Address Action -> Model -> Html
-riderForm address model =
+riderForm : Model -> Html Msg
+riderForm model =
   form
-    [ E.onSubmit address Submit       -- <1>
+    [ E.onSubmit Submit               -- <1>
     , A.action "javascript:void(0);"
     ]
-    [ subForm address model.distField -- <2>
-    , subForm address model.userField
-    , subForm address model.dateField
+    [ subForm model.distField         -- <2>
+    , subForm model.userField
+    , subForm model.dateField
     , submit
     ]
 -- end::FormsRiderForm[]
 
 -- tag::FormsSubForm[]
-subForm : Signal.Address Action -> FormEntry a -> Html
-subForm address ent =                                           
+subForm : FormEntry a -> Html Msg
+subForm ent =
   let
     onError = Error << ent.err                               -- <1>
     onOk = Set << ent.setter
 
-    inputHandler : String -> Signal.Message
+    inputHandler : String -> Msg
     inputHandler str = str                                   -- <2>
       |> ent.decoder                                         -- <3>
       |> mapBoth onError onOk                                -- <4>
-      |> Signal.message address                              -- <5>
 
     showHelp = Maybe.withDefault ent.help ent.formError      -- <6>
   in
@@ -56,11 +55,11 @@ subForm address ent =
           [ label
               [ A.class "control-label"
               , A.for ent.label                              -- <8>
-              ] [ text ent.label ]                           
+              ] [ text ent.label ]
           , input
               [ A.class "form-control"
               , A.type' "text"
-              , E.on "input" E.targetValue inputHandler
+              , E.onInput inputHandler
               ] []
           , span [ A.id "helpBlock2", A.class "help-block" ]        
               [ text showHelp ]                              -- <9>
@@ -69,7 +68,7 @@ subForm address ent =
 -- end::FormsSubForm[]
 
 
-submit : Html
+submit : Html a
 submit =
   button
     [ A.class "btn btn-primary"
