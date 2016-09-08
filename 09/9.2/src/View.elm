@@ -4,7 +4,6 @@ import Date.Format exposing (format)
 import Html
 import Html exposing (..)
 import Html.Attributes as A
-import Maybe exposing (withDefault)
 
 import Types exposing (Msg (..), Model, User, Ride, FormEntry)
 import Forms exposing (riderForm)
@@ -20,8 +19,6 @@ view model =                                      -- <1>
         [ div [ A.class "col-md-6" ]
             [ riderForm model                     -- <3>
             ]
-        , div [ A.class "col-md-6" ]
-            [ h2 [] [ text "this is the rest" ] ]
         ]
     ]
 -- end::ViewMain[]
@@ -40,6 +37,7 @@ rideTable rides =
     ]
   , tbody [] (List.map tableRow rides)            -- <1>
   ]
+
 
 tableRow : Ride -> Html a
 tableRow ride =                                   -- <2>

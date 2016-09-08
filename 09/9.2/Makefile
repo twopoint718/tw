@@ -1,12 +1,9 @@
-SOURCES = BasicSyntax.elm Tests.elm
-EXE = ./node_modules/elm-test/bin/elm-test
+sources=$(wildcard src/*.elm)
 
-tests: $(SOURCES) $(EXE)
-	./node_modules/elm-test/bin/elm-test TestRunner.elm
+all: js/elm.js
 
-$(EXE): check
-	npm install
+js/elm.js: $(sources) Main.elm
+	elm make --warn Main.elm $(sources) --output js/elm.js
 
-check: please_install_npm
-
-please_install_npm: ;	@which npm > /dev/null
+clean:
+	rm js/elm.js

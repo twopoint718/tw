@@ -33,15 +33,6 @@ To run the JavaScript tests:
     npm install
     npm test
 
-### Meteor
-
-Meteor has a simple installation script:
-
-    curl https://install.meteor.com/ | sh
-
-After this is installed, you can run a meteor app by changing into the
-directory and simply running `meteor`.
-
 ### Opa (Opalang)
 
 Be sure you have the Opa compiler installed. Installation instructions are
@@ -69,6 +60,6 @@ Elm has a pre-built package for Mac OS X. You can find this on the website:
 <http://elm-lang.org/Install.elm>. For me this was as easy as just
 installing the package.
 
-Once installed, you can build programs with `elm-make`:
+Once installed, you can build programs with `elm-make` (when there's not a `Makefile`):
 
     elm-make Main.elm --output=main.html
