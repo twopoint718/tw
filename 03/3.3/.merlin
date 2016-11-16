@@ -1,0 +1,6 @@
+PKG cohttp cow lwt magic-mime mirage mirage-logs mirage-unix mirage-http
+PKG mirage-net-unix mirage-clock-unix mirage-console.unix mirage-fs-unix
+PKG rrd
+
+B _build/**
+S .

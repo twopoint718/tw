@@ -1,0 +1,11 @@
+.flash {
+  background-color: #ffff66;
+  border-color: yellowgreen;
+  border: 1px solid darkgrey;
+  font-size: larger;
+  font-style: italic;
+  padding: 5px;
+  margin: 5px;
+  color: gray;
+  border-radius: 10px;
+}
