@@ -26,3 +26,4 @@ log
 make-fat_block2-image.sh
 mir-*
 node_modules
+.vscode

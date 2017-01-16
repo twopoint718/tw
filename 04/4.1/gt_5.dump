@@ -1,0 +1,65 @@
+tag::HexDump[]
+0000000: 0061 736d 0d00 0000 0109 0260 0000 6001  .asm.......`..`.
+0000010: 7e01 7e03 0302 0001 0717 020c 6174 5f6d  ~.~.........at_m
+0000020: 6f73 745f 6669 7665 0001 046d 6169 6e00  ost_five...main.
+0000030: 000a 1902 0700 4205 1001 1a0b 0f00 2000  ......B....... .
+0000040: 4205 5604 7e42 0505 2000 0b0b            B.V.~B.. ...
+end::HexDump[]
+
+Explanation:
+
+Raw bytes    translated    Notes
+---------    ----------    --------------------------------------------
+0061 736d    0x6d736100    32-bit magic number "0asm"
+0d00 0000    0x0000000d    32-bit version
+
+01                         [Type Section] function signature decls
+09                         9 byte long section
+02                         2 function signatures follow
+60                         first function (function 0):
+00 00                      no params, no return value
+60                         second function (function 1):
+017e 017e                  1 param (i64), 1 return (i64)
+
+03                         [Function Section] function decls.
+03                         3 byte long section
+02                         2 functions are declared
+00                         ??? index 0
+01                         ??? index 1
+
+07                         [Export Section] exported functions
+17           23 (dec)      23-byte long section
+02                         2 functions are exported
+0c                         first export field is 12 bytes long
+61745f6d6f73745f66697665   "at_most_five"
+00                         "function" external kind
+01                         index 1
+04                         second export field is 4 bytes long
+6d61696e                   "main"
+00                         "function" external kind
+00                         index 0
+
+0a           10            [Code Section]
+19           25            25 byte long section
+02                         2 function bodies
+tag::MainFunction[]
+07                         first function is 7 bytes long
+00                         zero local variables
+42 05                      (i64.const 5)
+10 01                      (call 01) [i.e. $at_most_five]
+1a                         (drop)
+0b                         (end function)
+end::MainFunction[]
+
+0f           15            second function is 15 bytes long
+00                         zero local variables?
+20 00                      (get_local 0)
+00                         (unreachable?)
+42 05                      (i64.const 5)
+56                         (i64.gt_u)
+04 7e                      (if) [i64 block type]
+42 05                      (i64.const 5)
+05                         (else)
+20 00                      (get_local 0)
+0b                         (end if)
+0b                         (end function)

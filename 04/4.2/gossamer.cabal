@@ -1,0 +1,61 @@
+name:                gossamer
+version:             0.1.0.0
+synopsis:            A compiler for a simple functional language targeting webassembly
+description:         Please see README.md
+homepage:            https://github.com/twopoint718/gossamer#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Chris Wilson
+maintainer:          chris@sencjw.com
+copyright:           2016 Chris Wilson
+category:            Web
+build-type:          Simple
+cabal-version:       >=1.10
+extra-source-files:    README.md
+                     , lib/Lexer.x
+                     , lib/Parser.y
+
+library
+  default-language:    Haskell2010
+  ghc-options:         -Wall
+  hs-source-dirs:      lib
+  exposed-modules:     Ast
+                     , Compiler
+                     , Intermediate
+                     , Lexer
+                     , Parser
+                     , Typechecker
+                     , WebAssembly
+  build-depends:       array >= 0.5.1.0 && < 0.5.2.0 
+                     , base >= 4.7 && < 5
+                     , containers >= 0.5.7.1 && < 0.5.8.0
+                     , monad-gen >= 0.3.0.1 && < 0.3.1.0
+                     , mtl == 2.2.1
+                     , parsec >= 3.1.11 && < 3.2
+                     , recursion-schemes >= 5.0.1 && < 5.1.0
+                     , safe >= 0.3.10 && < 0.4
+                     , text >= 1.2.2.1 && < 1.2.3
+                     , these >= 0.7.2 && < 0.8.0
+  build-tools:         happy
+
+test-suite spec
+  default-language:    Haskell2010
+  ghc-options:         -Wall
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  other-modules:       CompilerSpec
+                     , IntermediateSpec
+                     , LexerSpec
+                     , ParserSpec
+                     , TypecheckerSpec
+                     , WebAssemblySpec
+  type:                exitcode-stdio-1.0
+  build-depends:       base >= 4.7 && < 5
+                     , containers >= 0.5.7.1 && < 0.5.8.0
+                     , gossamer
+                     , heredoc >= 0.2.0.0 && < 0.3
+                     , hspec >= 2.2.4 && < 2.3.0
+                     , hspec-expectations-pretty-diff >= 0.7.2.4 && < 0.8
+                     , monad-gen >= 0.3.0.1 && < 0.3.1.0
+                     , mtl == 2.2.1
+                     , these >= 0.7.2 && < 0.8.0

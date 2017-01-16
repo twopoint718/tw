@@ -1,0 +1,8 @@
+resolver: lts-7.9
+packages:
+- '.'
+extra-deps:
+- monad-gen-0.3.0.1
+- recursion-schemes-5.0.1
+flags: {}
+extra-package-dbs: []
