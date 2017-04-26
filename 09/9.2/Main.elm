@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Html.App as Html
+import Html as Html
 
 -- tag::MainFunction[]
 import Model exposing (model)
@@ -13,7 +13,7 @@ subscriptions : Model -> Sub a
 subscriptions _ = Sub.none                                     -- <1>
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
     Html.program
       { init = model

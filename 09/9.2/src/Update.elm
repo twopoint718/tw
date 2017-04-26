@@ -110,7 +110,7 @@ updateFn form input =
     newState =
       input
         |> form.decoder
-        |> Result.mapBoth FormError Value
+        |> Result.unpack FormError Value
   in
     { form | state = newState, userInput = input }   -- <3>
 

@@ -2,7 +2,7 @@ module Forms exposing (..)
 
 import DatePicker exposing (DatePicker)
 import Html exposing (..)
-import Html.App as Html
+import Html as Html
 import Html.Attributes as A
 import Html.Events as E
 import Html.Events exposing (defaultOptions)
@@ -54,7 +54,7 @@ subForm ent =
               ] [ text ent.label ]
           , input
               [ A.class "form-control"
-              , A.type' "text"
+              , A.type_ "text"
               , A.id ent.label
               , E.onInput (Update << ent.updater)
               , A.value ent.userInput
