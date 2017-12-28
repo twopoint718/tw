@@ -1,7 +1,7 @@
 val with_postbody :
-  (module Cohttp_lwt.Server) ->
+  (module Cohttp_lwt.S.Server) ->
   [< `Empty | `Stream of string Lwt_stream.t | `String of 'a | `Strings of 'b ] ->
-  ((module Cohttp_lwt.Server) ->
+  ((module Cohttp_lwt.S.Server) ->
    string -> (Cohttp_lwt.Response.t * Cohttp_lwt_body.t) Lwt.t) ->
   (Cohttp_lwt.Response.t * Cohttp_lwt_body.t) Lwt.t
 (** Accepts a server module, a raw request body, and a handler. This
@@ -11,13 +11,13 @@ val with_postbody :
 *)
 
 val add :
-  (module Cohttp_lwt.Server) ->
+  (module Cohttp_lwt.S.Server) ->
   string ->
   (Cohttp.Response.t * Cohttp_lwt_body.t) Lwt.t
 (** Add a ride to the (in-memory) database *)
 
 val remove :
-  (module Cohttp_lwt.Server) ->
+  (module Cohttp_lwt.S.Server) ->
   string ->
   (Cohttp.Response.t * Cohttp_lwt_body.t) Lwt.t
 (** Remove the referenced ride (in the params) from the (in-memory)

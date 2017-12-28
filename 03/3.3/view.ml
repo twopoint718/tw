@@ -2,6 +2,8 @@ module H = Cow.Html
 module F = Form_handler
 let (++) = H.(++)
 
+module Util = Biking_util
+
 let head_content =
   H.link
     ~rel:"stylesheet"
@@ -20,7 +22,7 @@ let head_content =
 
 (* tag::ViewRideTable[] *)
 let ride_table rides =
-  let the_row (ride, i) =                                     (* <1> *)
+  let make_row (ride, i) =                                    (* <1> *)
     let index = string_of_int i in
     [| H.string ride.F.name;
        H.string (string_of_float ride.F.distance);
@@ -42,7 +44,7 @@ let ride_table rides =
   let rides_with_index =
     List.combine rides (Util.range 1 (List.length rides)) in  (* <4> *)
   let table_body =
-    Array.of_list (List.map the_row rides_with_index) in      (* <5> *)
+    List.map make_row rides_with_index |> Array.of_list  in   (* <5> *)
   H.html_of_table ~headings:true @@
   Array.append [| table_header |] table_body                  (* <6> *)
 (* end::ViewRideTable[] *)

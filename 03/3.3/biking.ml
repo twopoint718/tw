@@ -1,34 +1,35 @@
 open Lwt.Infix
+open Mirage_clock
+
+module Util = Biking_util
 
 let server_src = Logs.Src.create "biking" ~doc:"HTTP server"
 module Server_log = (val Logs.src_log server_src : Logs.LOG)
 
 (* tag::BikingMain[] *)
-module Main (Clock:V1.CLOCK) (FS:V1_LWT.KV_RO) (S:Cohttp_lwt.Server)
+module Main (PClock:PCLOCK) (FS:Mirage_kv_lwt.RO) (S:Cohttp_lwt.S.Server)
 = struct
 (* end::BikingMain[] *)
 
-  module Logs_reporter = Mirage_logs.Make(Clock)
-
+  module Logs_reporter = Mirage_logs.Make(PClock)
+  let failf fmt = Fmt.kstrf Lwt.fail_with fmt
 
   (* tag::BikingReadFs[] *)
   let read_fs fs name =
     FS.size fs name >>= function                              (* <1> *)
-    | `Error (FS.Unknown_key _) ->
-      Lwt.fail (Failure ("read " ^ name))
-    | `Ok size ->
-      FS.read fs name 0 (Int64.to_int size) >>= function
-      | `Error (FS.Unknown_key _) ->
-        Lwt.fail (Failure ("read " ^ name))
-      | `Ok bufs -> Lwt.return (Cstruct.copyv bufs)
+    | Error err -> failf "Size: %a" FS.pp_error err
+    | Ok size ->
+       FS.read fs name Int64.zero size >>= function           (* <2> *)
+       | Error err -> failf "Read: %a" FS.pp_error err
+       | Ok bufs -> Lwt.return (Cstruct.copyv bufs)           (* <3> *)
   (* end::BikingReadFs[] *)
 
 
   (* tag::BikingDispatcher[] *)
-  let rec dispatcher fs meth path body =
+  let rec dispatch fs meth path body =
     Server_log.info (fun f ->
       f "[%s] %s" (Util.string_of_meth meth) path);
-    let server = (module S : Cohttp_lwt.Server) in
+    let server = (module S : Cohttp_lwt.S.Server) in
     match (meth, path) with                                   (* <1> *)
     | ((`GET, "") | (`GET, "/")) ->
         S.respond_string
@@ -37,7 +38,7 @@ module Main (Clock:V1.CLOCK) (FS:V1_LWT.KV_RO) (S:Cohttp_lwt.Server)
                    Model.(store.rides) Model.(store.flash)) ()
 
     | (`GET, "/form") ->                                      (* <3> *)
-        dispatcher fs meth "form.html" body
+        dispatch fs meth "form.html" body
 
     | (`POST, "/add") ->
         Controller.(with_postbody server body add)            (* <4> *)
@@ -59,16 +60,16 @@ module Main (Clock:V1.CLOCK) (FS:V1_LWT.KV_RO) (S:Cohttp_lwt.Server)
 
 
   (* tag::BikingStart[] *)
-  let start _clock ro_fs http =                               (* <1> *)
+  let start clock ro_fs http =                                (* <1> *)
     Logs.(set_level (Some Info));
-    Logs_reporter.(create () |> run) @@ fun () ->
+    Logs_reporter.(create clock |> run) @@ fun () ->
 
     let callback (_,cid) request body =                       (* <2> *)
       let cid = Cohttp.Connection.to_string cid in
       let meth = Cohttp.Request.meth request in
       let path = request |> Cohttp.Request.uri |> Uri.path in
       Server_log.info (fun f -> f "[%s] connect" cid);
-      dispatcher ro_fs meth path body in                      (* <3> *)
+      dispatch ro_fs meth path body in                        (* <3> *)
 
     let conn_closed (_, cid) =                                (* <4> *)
       let cid = Cohttp.Connection.to_string cid in

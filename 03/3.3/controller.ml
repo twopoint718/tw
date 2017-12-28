@@ -6,7 +6,7 @@ let string_of_stream stream =
 
 (* tag::ControllerWithPostbody[] *)
 let with_postbody server body handler =
-  let module Server = (val server : Cohttp_lwt.Server) in     (* <1> *)
+  let module Server = (val server : Cohttp_lwt.S.Server) in     (* <1> *)
   let b s = Cohttp_lwt_body.of_string s in
   let err400 = `Bad_request in
   match body with
@@ -23,7 +23,7 @@ let with_postbody server body handler =
 
 (* tag::ControllerAdd[] *)
 let add server formdata =
-  let module Server = (val server : Cohttp_lwt.Server) in
+  let module Server = (val server : Cohttp_lwt.S.Server) in
   (match Form_handler.ride_of_formdata formdata with          (* <1> *)
    | Some ride ->
        Model.add_ride Model.store ride;                       (* <2> *)
@@ -36,7 +36,7 @@ let add server formdata =
 
 (* tag::ControllerRemove[] *)
 let remove server formdata =
-  let module Server = (val server : Cohttp_lwt.Server) in
+  let module Server = (val server : Cohttp_lwt.S.Server) in
   (match Form_handler.ride_num_of_formdata formdata with      (* <1> *)
   | None ->
       Model.(store.flash <- Some "No action taken")

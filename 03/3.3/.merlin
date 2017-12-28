@@ -1,6 +1,6 @@
-PKG cohttp cow lwt magic-mime mirage mirage-logs mirage-unix mirage-http
-PKG mirage-net-unix mirage-clock-unix mirage-console.unix mirage-fs-unix
-PKG rrd
+PKG  charrua-client-mirage cohttp cohttp.lwt cow functoria-runtime io-page io-page.unix lwt magic-mime mirage-clock-unix mirage-conduit mirage-http mirage-kv mirage-kv-lwt mirage-logs mirage-net-macosx mirage-random mirage-runtime mirage-types mirage-types-lwt mirage-unix nocrypto nocrypto.lwt tcpip tcpip.arpv4 tcpip.ethif tcpip.icmpv4 tcpip.stack-direct tcpip.tcp tcpip.udp tcpip.unix
 
 B _build/**
-S .
+
+S ./
+B ./
