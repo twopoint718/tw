@@ -1,0 +1,61 @@
+name: generic-ride
+version: '0.1.0.0'
+synopsis: Generate Elm code for the 'Ride' application
+description: See README.md
+category: Web
+author:
+  - Chris Wilson
+maintainer:
+  - Chris Wilson <christopher.j.wilson@gmail.com>
+copyright: "2017 Chris Wilson"
+license: BSD3
+license-file: LICENSE
+extra-source-files:
+  - README.md
+
+ghc-options:
+  - -Wall
+
+dependencies:
+  - base >=4.7 && <5
+  - bytestring
+  - http-types
+  - monad-logger
+  - mtl
+  - persistent
+  - persistent-postgresql
+  - persistent-template
+  - safe
+  - scotty
+  - scientific
+  - text
+  - time
+  - transformers
+  - wai
+  - wai-extra
+  - wai-middleware-static
+  - warp
+
+library:
+  source-dirs: src
+
+executables:
+  exe:
+    source-dirs: app
+    main: Main.hs
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - base
+      - generic-ride
+
+tests:
+  spec:
+    source-dirs: test
+    main: Spec.hs
+    dependencies:
+      - generic-ride
+      - heredoc
+      - hspec
