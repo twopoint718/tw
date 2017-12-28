@@ -31,9 +31,9 @@ module View {
           </div>
         </div>
         <div class=row>
-          <div class=col-md-8>{main_table()}</div>    <!-- <4>
+          <div class=col-md-8>{render_table()}</div>    <!-- <4>
           -->
-          <div class=col-md-3>{input_form()}</div>
+          <div class=col-md-3>{render_input_form()}</div>
         </div>
       </div>
 
@@ -42,7 +42,7 @@ module View {
   // end::viewPageLayout[]
 
   // tag::viewMainTable[]
-  function main_table() {
+  function render_table() {
     <table class="table table-hover">
       <thead>
         <tr>
@@ -54,18 +54,18 @@ module View {
       </thead>                                      <!-- <1>
       -->
       <tbody>
-        {table_rows()}
+        {render_table_rows()}
       </tbody>
     </table>
   }
 
-  function table_rows() {
+  function render_table_rows() {
     all_rides = /biking/rides                         // <2>
     it = DbSet.iterator(all_rides)                    // <3>
-    Iter.fold(table_row, it, <></>)                   // <4>
+    Iter.fold(render_table_row, it, <></>)            // <4>
   }
 
-  function table_row(row, acc) {                      // <5>
+  function render_table_row(row, acc) {               // <5>
     pr = Date.generate_printer("%a., %b. %E, %Y");
                                                       // <6>
     <>
@@ -81,7 +81,7 @@ module View {
   // end::viewMainTable[]
 
   // tag::viewInputForm[]
-  function input_form() {
+  function render_input_form() {
     <form>
       <div class=form-group>
         <label for=name>Name</label>
