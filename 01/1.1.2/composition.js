@@ -1,8 +1,8 @@
 // composition.js
 
-function bar(x)  { return x + 1 }
-function baz(x)  { return x * 2 }
-function quux(x) { return x + 3 }
+function bar(x)  { return x + 1; }
+function baz(x)  { return x * 2; }
+function quux(x) { return x + 3; }
 
 // tag::first[]
 function foo1(input) {
@@ -34,7 +34,7 @@ function foo3(input, f, g, h) {
 
 // tag::fourth[]
 function compose(f, g) {
-  return function(x) { return f(g(x)); }
+  return function(x) { return f(g(x)); };
 }
 
 function chain(funcs) {

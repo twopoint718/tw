@@ -16,6 +16,6 @@
   "author": "Chris Wilson <chris@sencjw.com>",
   "license": "MIT",
   "devDependencies": {
-    "jest-cli": "^0.2.1"
+    "jest-cli": ""
   }
 }
