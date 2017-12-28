@@ -16,11 +16,13 @@ function escape(str : string) : HTML {                     // <2>
 }
 
 function insert(html : HTML) {                             // <4>
-  var target = document.getElementById('target');
-  target.innerHTML = html.html;                            // <5>
+  var target = document.getElementById("target");
+  if (target != null) {
+    target.innerHTML = html.html;                          // <5> 
+  }
 }
 
 function display() {
-  var text = document.getElementsByTagName('input')[0];
+  var text = document.getElementsByTagName("input")[0];
   insert(escape(text.value));                              // <6>
 }
