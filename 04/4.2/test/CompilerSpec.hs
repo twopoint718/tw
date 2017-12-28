@@ -3,11 +3,10 @@
 module CompilerSpec where
 
 
-import Test.Hspec (Spec, hspec, context, it)
-import Test.Hspec.Expectations.Pretty (shouldBe)
-import Text.Heredoc
-
-import Compiler
+import           Compiler
+import           Test.Hspec                     (Spec, context, hspec, it)
+import           Test.Hspec.Expectations.Pretty (shouldBe)
+import           Text.Heredoc
 
 
 main :: IO ()
@@ -15,10 +14,10 @@ main = hspec spec
 
 
 spec :: Spec
-spec = do
+spec =
   context "compileString" $ do
     it "simple" $
-      compileString "let main : int = 1"
+      compileString "[no file]" "let main : int = 1"
       `shouldBe` normalize
       [str|(module
           |  (export "$main" (func $main))
@@ -28,7 +27,7 @@ spec = do
           |]
 
     it "fact" $
-      compileString
+      compileString "[no file]"
         [str|let fact : int -> int =
             |  fun(n : int) : int {
             |    if n = 0 then 1 else n * fact (n-1)

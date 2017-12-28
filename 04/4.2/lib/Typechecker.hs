@@ -1,15 +1,13 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-
 module Typechecker where
 
 
-import Data.List (lookup)
-import Data.These
-import Control.Monad.Chronicle
+import           Control.Monad.Chronicle
+import           Data.List               (lookup)
+import           Data.These
 
-import Ast
-import Prelude hiding (True, False)
-import Text.Printf (printf)
+import           Ast
+import           Prelude                 hiding (False, True)
+import           Text.Printf             (printf)
 
 
 type Context = [(String, Type)]
@@ -38,13 +36,13 @@ typeOk = return . Just
 typecheck :: [Def] -> Either String ()
 typecheck defs =
   case runChronicle (typeOfDefs [] defs) of       -- <1>
-    This errs -> Left (unwords errs)              -- <2>
-    That _ -> Right ()                            -- <3>
+    This errs    -> Left (unwords errs)           -- <2>
+    That _       -> Right ()                      -- <3>
     These errs _ -> Left (unwords errs)           -- <4>
 
 typeOfDefs :: Context -> [Def] -> CheckResult
 typeOfDefs _ [] = return Nothing
-typeOfDefs ctx ((Def name defType expr):defs) = do
+typeOfDefs ctx (Def name defType expr : defs) = do
   let ctx' = (name, defType) : ctx
   _ <- check ctx' defType expr                    -- <5>
   typeOfDefs ctx' defs                            -- <6>
@@ -69,9 +67,9 @@ typeOf :: Context -> Expr -> CheckResult
 typeOf ctx expr =
   case expr of                                                -- <7>
     Apply fun arg -> do
-      mfunType <- typeOf ctx fun
-      margType <- typeOf ctx arg
-      case (mfunType, margType) of
+      mFunType <- typeOf ctx fun
+      mArgType <- typeOf ctx arg
+      case (mFunType, mArgType) of
         (Just (TArrow inputType outputType), Just argType) -> -- <8>
           if inputType == argType
           then typeOk outputType
@@ -99,7 +97,7 @@ typeOf ctx expr =
 
     Lambda names retType e -> do                              -- <11>
       let
-        nestedSigType = foldr TArrow retType (map snd names)
+        nestedSigType = foldr (TArrow . snd) retType names
         ctx' = ("__self__", nestedSigType) : (names ++ ctx)
       _ <- check ctx' retType e
       typeOk nestedSigType

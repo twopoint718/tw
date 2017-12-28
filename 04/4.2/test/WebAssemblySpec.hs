@@ -2,10 +2,10 @@
 
 module WebAssemblySpec where
 
-import Test.Hspec
-import Text.Heredoc
+import           Test.Hspec
+import           Text.Heredoc
 
-import WebAssembly
+import           WebAssembly
 
 
 main :: IO ()
@@ -14,7 +14,7 @@ main = hspec spec
 
 spec :: Spec
 spec = do
-  describe "generateFunc" $ do
+  describe "generateFunc" $
     it "func" $
       generateFunc
         (Func (Name "dec") [(Name "i", I64)] (Result I64)

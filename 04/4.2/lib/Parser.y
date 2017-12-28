@@ -96,26 +96,26 @@ expr
   | expr TIMES expr { Ast.Times $1 $3 }                -- <2>
   | expr EQUAL expr { Ast.Equal $1 $3 }                -- <2>
   | expr LESS expr { Ast.Less $1 $3 }                  -- <2>
-  | IF expr THEN expr ELSE expr { Ast.If $2 $4 $6 }    -- <2>
+  | IF expr THEN expr ELSE expr { Ast.If $2 $4 $6 }    -- <3>
   | LAMBDA LPAREN arg_list RPAREN COLON type LCURLY expr RCURLY
-      { Ast.Lambda $3 $6 $8 }                          -- <3>
+      { Ast.Lambda $3 $6 $8 }                          -- <4>
 
-arg_list :: { [(Ast.Name, Ast.Type)] }                 -- <4>
+arg_list :: { [(Ast.Name, Ast.Type)] }                 -- <5>
 arg_list : arg_list_ { reverse $1 }
 
-arg_list_ :: { [(Ast.Name, Ast.Type)] }                -- <4>
+arg_list_ :: { [(Ast.Name, Ast.Type)] }                -- <5>
 arg_list_
   : arg_list_ COMMA VAR COLON type { ($3, $5) : $1 }
   | VAR COLON type                 { [($1, $3)] }
   | {- empty -}                    { [] }
 
 app_expr :: { Ast.Expr }
-app_expr                                               -- <5>
+app_expr                                               -- <6>
   : simple_expr { $1 }
   | app_expr simple_expr { Ast.Apply $1 $2 }
 
 simple_expr :: { Ast.Expr }
-simple_expr                                            -- <6>
+simple_expr                                            -- <7>
   : VAR { Ast.Var $1 }
   | TRUE { Ast.Bool True }
   | FALSE { Ast.Bool False }

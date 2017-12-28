@@ -1,25 +1,22 @@
-{-# LANGUAGE DeriveFunctor #-}
+{-# LANGUAGE DeriveFunctor   #-}
 {-# LANGUAGE OverloadedLists #-}
-{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE TypeFamilies    #-}
 
 module Intermediate where
 
 
-import Control.Arrow ((>>>))
-import Control.Monad.Gen
-import Control.Monad.Writer (WriterT, runWriterT, tell)
-import Data.Functor.Foldable
-  ( Base
-  , Corecursive, embed
-  , Recursive, project
-  , cata
-  )
-import Data.Set (Set)
-import Prelude hiding (exp)
+import           Control.Arrow         ((>>>))
+import           Control.Monad.Gen
+import           Control.Monad.Writer  (WriterT, runWriterT, tell)
+import           Data.Functor.Foldable (Base, Corecursive, Recursive, cata,
+                                        embed, project)
+import           Data.List             (foldl')
+import           Data.Set              (Set)
+import           Prelude               hiding (exp)
 
-import qualified Ast as Ast
-import qualified Data.Set as Set
-import qualified WebAssembly as W
+import qualified Ast
+import qualified Data.Set              as Set
+import qualified WebAssembly           as W
 
 
 type Name = String
@@ -98,7 +95,7 @@ instance Corecursive IR where
 
 -- tag::IntermediateClosureConvert[]
 freeVars :: IR -> Set Name
-freeVars e = cata alg e where                                    -- <1>
+freeVars = cata alg where                                        -- <1>
   alg (ApplyF f vs)   = f `Set.union` vs                         -- <2>
   alg (BoolF _)       = Set.empty
   alg (EqualF e1 e2)  = e1 `Set.union` e2
@@ -112,8 +109,7 @@ freeVars e = cata alg e where                                    -- <1>
   alg (VarF v)        = Set.singleton v                          -- <4>
 
 applyTo :: IR -> [Name] -> IR                                    -- <5>
-applyTo e (n:ns) = applyTo (Apply e (Var n)) ns
-applyTo e []     = e
+applyTo = foldl' (\expr name -> Apply expr (Var name))
 
 closureConvert :: [Name] -> IR -> IR
 closureConvert globals = cata alg                                -- <6>
@@ -171,7 +167,7 @@ smash = cata alg where
   alg e = embed e
 
 eliminateLambdas :: [Name] -> [Def] -> [Def]
-eliminateLambdas globals defs = concatMap helper defs            -- <3>
+eliminateLambdas globals = concatMap helper                      -- <3>
   where
     run = runGen . runWriterT                                    -- <4>
     xform = closureConvert globals >>> smash >>> liftLambda      -- <5>
@@ -179,7 +175,6 @@ eliminateLambdas globals defs = concatMap helper defs            -- <3>
     helper (Def name params expr) =                              -- <6>
       let (newExpr, newDefs) = (run . xform) expr
       in Def name params newExpr : newDefs
-
 -- end::IntermediateLambdaWrangling[]
 
 
@@ -189,7 +184,7 @@ eliminateLambdas globals defs = concatMap helper defs            -- <3>
 
 fromAst :: [Ast.Def] -> [Def]
 fromAst [] = []
-fromAst ((Ast.Def name _ e):defs) =
+fromAst (Ast.Def name _ e : defs) =
   Def name [] (fromAstExpr e) : fromAst defs
 
 
@@ -223,7 +218,7 @@ toWast ds = W.Module funcs Nothing where                         -- <1>
     (fromIR ir)
 
   toParams :: [Name] -> [W.Param]                                -- <4>
-  toParams names = map (\name -> (W.mkName name, W.I64)) names
+  toParams = map (\name -> (W.mkName name, W.I64))
 
   errNonNamed = error "code gen: calling a non-named function"   -- <5>
   errBadLambda = error "code gen: lambdas should be eliminated"

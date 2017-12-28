@@ -1,19 +1,15 @@
-{-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE DeriveFunctor #-}
+{-# LANGUAGE TypeFamilies  #-}
 
 module WebAssembly where
 
 
-import Data.Int (Int64)
-import Text.Printf (printf)
-import Data.Functor.Foldable
-  ( Base
-  , Corecursive, embed
-  , Recursive, project
-  , cata
-  )
+import           Data.Functor.Foldable (Base, Corecursive, Recursive, cata,
+                                        embed, project)
+import           Data.Int              (Int64)
+import           Text.Printf           (printf)
 
-import qualified Text.Printf as P
+import qualified Text.Printf           as P
 
 
 data Module = Module [Func] (Maybe [Test])
@@ -165,7 +161,7 @@ generateResult (Result ty)= printf "(result %s)" (generateType ty)
 
 -- tag::WebAssemblyGenerateExpr[]
 generateExpr :: Expr -> String
-generateExpr expr = cata alg expr where
+generateExpr = cata alg where
   alg (AddF e1 e2)       = printf "(i64.add %s %s)" e1 e2
   alg (CallF name exprs) = printf "(call %n %s)" name (unwords exprs)
   alg (ConstF i)         = printf "(i64.const %d)" i
